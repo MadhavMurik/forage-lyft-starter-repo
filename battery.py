@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-import datetime
+from utils import add_years_to_date
 
 class Battery(ABC):
     @abstractmethod
@@ -8,18 +8,18 @@ class Battery(ABC):
     
     
 class SpindlerBattery(Battery):
-    def __init__(self, last_service_date: datetime, current_date: datetime):
+    def __init__(self, last_service_date, current_date):
         self.last_service_date = last_service_date
         self.current_date = current_date
 
     def needs_service(self) -> bool:
-        return self.current_date - self.last_service_date >= 730
+        return add_years_to_date(self.last_service_date, 3) < self.current_date
 
 
 class NubbinBattery(Battery):
-    def __init__(self, last_service_date: datetime, current_date: datetime):
+    def __init__(self, last_service_date, current_date):
         self.last_service_date = last_service_date
         self.current_date = current_date
 
     def needs_service(self) -> bool:
-        return self.current_date - self.last_service_date >= 1460
+        return add_years_to_date(self.last_service_date, 4) < self.current_date
